@@ -15,6 +15,7 @@ function attachEvents() {
                     .style.display = 'block';
 
                 let currentConditions = document.getElementById('current');
+                let upcomingConditions = document.getElementById('upcoming');
 
                 let locationId = data.find(city => city.name === locationInput.value);
 
@@ -61,6 +62,30 @@ function attachEvents() {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
+
+                    let forecastInfo = document.createElement('div');
+                    forecastInfo.className = "forecast-info";
+
+                    let mainUpcoming = document.createElement('span');
+                    mainUpcoming.className = "upcoming";
+
+                    data.forecast.map(x => {
+
+                        let condition = document.createElement('span');
+                        condition.className = "forecast-data";
+                        condition.textContent = x.condition;
+
+                        let degree = document.createElement('span');
+                        degree.className = 'forecast-data';
+                        degree.textContent = `${x.low}/${x.high}`;
+
+                        mainUpcoming.appendChild(degree);
+                        mainUpcoming.appendChild(condition);
+
+                    });
+
+                    forecastInfo.appendChild(mainUpcoming);
+                    upcomingConditions.appendChild(forecastInfo);
 
                 })
             })
