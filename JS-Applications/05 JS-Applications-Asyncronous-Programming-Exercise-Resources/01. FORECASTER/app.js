@@ -2,6 +2,14 @@ function attachEvents() {
 
     let locationInput = document.getElementById('location');
 
+    const conditionIcons = {
+        'Sunny': '&#x2600', // ☀
+        'Partly sunny': '&#x26C5', // ⛅
+        'Overcast': '&#x2601', // ☁
+        'Rain': '&#x2614', // ☂
+        'Degrees': '&#176' // °
+    }
+
     document.getElementById('submit')
         .addEventListener('click', loadLocationInfo);
 
@@ -23,12 +31,14 @@ function attachEvents() {
                     .then(res => res.json())
                     .then(data => {
 
+                        console.log(data);
+
                         let forecastsDiv = document.createElement('div');
                         forecastsDiv.className = "forecasts";
 
                         let conditionIcon = document.createElement('span');
                         conditionIcon.className = "condition symbol";
-                        conditionIcon.innerHTML = "&#x2600" // ☀
+                        conditionIcon.innerHTML = conditionIcons[data.forecast.condition];
 
                         let mainCondition = document.createElement('span');
                         mainCondition.className = "conditon";
@@ -43,7 +53,7 @@ function attachEvents() {
 
                         let lowHigh = document.createElement('span');
                         lowHigh.className = 'forecast-data';
-                        lowHigh.textContent = `${data.forecast.low}/${data.forecast.high}`;
+                        lowHigh.innerHTML = `${data.forecast.low}${conditionIcons['Degrees']}/${data.forecast.high}${conditionIcons['Degrees']}`;
 
 
                         mainCondition.appendChild(locationName);
@@ -61,30 +71,38 @@ function attachEvents() {
                 fetch(`https://judgetests.firebaseio.com/forecast/upcoming/${locationId.code}.json`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    
 
                     let forecastInfo = document.createElement('div');
                     forecastInfo.className = "forecast-info";
 
-                    let mainUpcoming = document.createElement('span');
-                    mainUpcoming.className = "upcoming";
-
+                    
                     data.forecast.map(x => {
 
+                        let mainUpcoming = document.createElement('span');
+                        mainUpcoming.className = "upcoming";
+
+                        let symbolEl = document.createElement('span');
+                        symbolEl.className = 'symbol';
+                        symbolEl.innerHTML = conditionIcons[x.condition];
+           
                         let condition = document.createElement('span');
                         condition.className = "forecast-data";
                         condition.textContent = x.condition;
-
+                        
                         let degree = document.createElement('span');
                         degree.className = 'forecast-data';
-                        degree.textContent = `${x.low}/${x.high}`;
+                        degree.innerHTML = `${x.low}${conditionIcons['Degrees']}/${x.high}${conditionIcons['Degrees']}`;
+                        
+       
 
-                        mainUpcoming.appendChild(degree);
+                        mainUpcoming.appendChild(symbolEl);
                         mainUpcoming.appendChild(condition);
+                        mainUpcoming.appendChild(degree);
 
+                        forecastInfo.appendChild(mainUpcoming);
                     });
 
-                    forecastInfo.appendChild(mainUpcoming);
                     upcomingConditions.appendChild(forecastInfo);
 
                 })
