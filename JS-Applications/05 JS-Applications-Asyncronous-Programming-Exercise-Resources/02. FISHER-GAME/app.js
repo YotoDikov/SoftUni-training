@@ -5,6 +5,9 @@ function attachEvents() {
 
     let catches = document.getElementById('catches');
 
+    const loadBtn = document.getElementsByClassName('load')[0]
+        .addEventListener('click', loadCatches);
+
     const catchParameters = [
         "Angler",
         "Weight",
@@ -13,9 +16,6 @@ function attachEvents() {
         "Bait",
         "Capture Time"
     ];
-
-    const loadBtn = document.getElementsByClassName('load')[0]
-        .addEventListener('click', loadCatches);
 
         
     function loadCatches() {
@@ -29,6 +29,8 @@ function attachEvents() {
     }
 
     function createCatchTemplate(data) {
+
+        catches.innerHTML = '';
 
         for (const id in data) {
 
@@ -64,8 +66,10 @@ function attachEvents() {
                 catchDiv.appendChild(hr);
             });
             
-            let updateBtn = document.createElement('button');
+            let updateBtn = document.createElement('button')
             updateBtn.textContent = 'Update';
+            updateBtn.addEventListener('click', update);
+
             let deleteBtn = document.createElement('button');
             deleteBtn.textContent = ('Delete');
             
@@ -91,6 +95,41 @@ function attachEvents() {
         let hrElement = document.createElement('hr');
 
         return [input, hrElement]
+    }
+
+    function update(e) {
+
+        // let angler = document.getElementsByClassName('Angler');
+        // let weight = document.getElementsByClassName('Weight');
+        // let species = document.getElementsByClassName('Species');
+        // let location = document.getElementsByClassName('Location');
+        // let bait = document.getElementsByClassName('Bait');
+        // let captureTime = document.getElementsByClassName('Capture Time');
+
+        let user = e.target.parentNode.children;
+        let userArray = Array.from(user)
+            .reduce((acc, curr) => {
+                if(curr.tagName === "INPUT") {
+                    acc.push(curr);
+                }
+                return acc
+            },[]);
+        let userBody = {
+            angler: userArray.find(x => x.className === "Angler").value,
+            bait: userArray.find(x => x.className === "Bait").value,
+            captureTime: userArray.find(x => x.className === "Capture Time").value,
+            location: userArray.find(x => x.className === "Location").value,
+            species: userArray.find(x => x.className === "Species").value,
+            weight: userArray.find(x => x.className === "Weight").value
+        }
+        let userId = e.target.parentNode.id;
+        // console.log(userArray.find(x => x.className === "Capture Time"));
+        fetch(`${baseUrl}/${userId}.json`, {method: "PUT", body: JSON.stringify(userBody)})
+
+            // .then(res => res.json())
+            // .then(data => {
+            //     console.log(data);
+            // });
     }
 
 
