@@ -8,6 +8,10 @@ function attachEvents() {
     const loadBtn = document.getElementsByClassName('load')[0]
         .addEventListener('click', loadCatches);
 
+    const addBtn = document.getElementsByClassName('add')[0]
+        .addEventListener("click", addUser);
+    
+
     const catchParameters = [
         "Angler",
         "Weight",
@@ -23,7 +27,7 @@ function attachEvents() {
         fetch(`${baseUrl}.json`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+         
                 createCatchTemplate(data);
             })
     }
@@ -127,6 +131,29 @@ function attachEvents() {
         let userId = e.target.parentNode.id;
         fetch(`${baseUrl}/${userId}.json`,{method:"DELETE"})
         
+    }
+
+    function addUser() {
+
+        let anglerInput = document.querySelector('#addForm > .angler');
+        let weightInput = document.querySelector('#addForm > .weight');
+        let speciesInput = document.querySelector('#addForm > .species');
+        let locationInput = document.querySelector('#addForm > .location');
+        let baitInput = document.querySelector('#addForm > .bait');
+        let captureTimeInput = document.querySelector('#addForm > .captureTime');
+
+        let userBody = {
+            angler: anglerInput.value,
+            bait: weightInput.value,
+            captureTime: speciesInput.value,
+            location: locationInput.value,
+            species: baitInput.value,
+            weight: captureTimeInput.value
+        }
+
+        
+        fetch(`${baseUrl}.json`, {method: 'POST', body: JSON.stringify(userBody)})
+
     }
 
 
