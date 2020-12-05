@@ -72,6 +72,7 @@ function attachEvents() {
 
             let deleteBtn = document.createElement('button');
             deleteBtn.textContent = ('Delete');
+            deleteBtn.addEventListener('click', deleteFnc)
             
             catchDiv.appendChild(updateBtn);
             catchDiv.appendChild(deleteBtn);
@@ -99,13 +100,6 @@ function attachEvents() {
 
     function update(e) {
 
-        // let angler = document.getElementsByClassName('Angler');
-        // let weight = document.getElementsByClassName('Weight');
-        // let species = document.getElementsByClassName('Species');
-        // let location = document.getElementsByClassName('Location');
-        // let bait = document.getElementsByClassName('Bait');
-        // let captureTime = document.getElementsByClassName('Capture Time');
-
         let user = e.target.parentNode.children;
         let userArray = Array.from(user)
             .reduce((acc, curr) => {
@@ -123,13 +117,16 @@ function attachEvents() {
             weight: userArray.find(x => x.className === "Weight").value
         }
         let userId = e.target.parentNode.id;
-        // console.log(userArray.find(x => x.className === "Capture Time"));
+
         fetch(`${baseUrl}/${userId}.json`, {method: "PUT", body: JSON.stringify(userBody)})
 
-            // .then(res => res.json())
-            // .then(data => {
-            //     console.log(data);
-            // });
+    }
+
+    function deleteFnc(e) {
+
+        let userId = e.target.parentNode.id;
+        fetch(`${baseUrl}/${userId}.json`,{method:"DELETE"})
+        
     }
 
 
