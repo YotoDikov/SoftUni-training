@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/team.css">
+    <link rel="stylesheet" type="text/css" href="css/details.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <title>Team Managers App</title>
+  </head>
+  
+  <body>
+    <div id="infoBox" class="notification" disabled></div>
+    <div id="errorBox" class="notification" disabled></div>
+    <div id="main">
+
+    </div>
+    
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../node_modules/handlebars/dist/handlebars.min.js"></script>
+    <script src="../node_modules/sammy/lib/sammy.js"></script>
+    <script src="../node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+    
+        <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
+    
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyDLfybyrNKoz76_g3zydYpcsftHE_PlBW4",
+        authDomain: "js-spa-routing.firebaseapp.com",
+        databaseURL: "https://js-spa-routing-default-rtdb.firebaseio.com",
+        projectId: "js-spa-routing",
+        storageBucket: "js-spa-routing.appspot.com",
+        messagingSenderId: "547867244695",
+        appId: "1:547867244695:web:9ad6692ed088b430ff51d2"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var DB = firebase.database();
+      console.log(DB);
+    </script>
+    <script>
+      const url = 'https://js-spa-routing-default-rtdb.firebaseio.com/'
+
+      fetch(`${url}.json`)
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch( (e) => console.log(e))
+    </script>
+
+    <script type="module" src="./scripts/app.js"></script>
+  </body>
+
+</html>
