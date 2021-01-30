@@ -28,6 +28,12 @@
       </div>
     </div>
   </script>
+  
+  <script type="text/x-handlebars-template" id="contacts-template">
+    {{#each contacts}}
+      {{>contactPartial}}
+    {{/each}}
+  </script>
 
   <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
   <script src="./contacts.js"></script>
@@ -36,13 +42,43 @@
     const contactsElement = document.getElementById('contacts');
 
     const contactView = document.getElementById('contact-template').innerHTML;
+    Handlebars.registerPartial('contactPartial', contactView);
 
-    const contactTemplate = Handlebars.compile(contactView);
 
-    let contactsHtml = contacts.map(contact => contactTemplate(contact)).join('');
+    const contactsView = document.getElementById('contacts-template').innerHTML;
+
+    // const contactTemplate = Handlebars.compile(contactView);
+    const contactsTemplate = Handlebars.compile(contactsView);
+
+    // let contactsHtml = contacts.map(contact => contactTemplate(contact)).join('');
+    let contactsHtml = contactsTemplate({contacts});
 
     contactsElement.innerHTML = contactsHtml;
+
+    let btnArr = document.getElementsByClassName('detailsBtn');
+
+    for (let i = 0; i < btnArr.length; i++) {
+      btnArr[i].addEventListener('click', detailsFnc)
+      
+    }
+    
+    function detailsFnc(e) {
+      let detailEl = e.target.parentNode.querySelector('.details');
+      if(detailEl.style.display == 'block') {
+        detailEl.style.display = 'none';
+      } else {
+
+        detailEl.style.display = 'block';
+      }
+    }
+
+
+    
+
+
+
   </script>
+
 </body>
 
 </html>
