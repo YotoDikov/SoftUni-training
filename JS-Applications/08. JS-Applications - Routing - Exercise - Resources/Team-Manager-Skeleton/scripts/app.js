@@ -1,4 +1,4 @@
- import { getHome, getHome2 } from './user.js'
+ import getHome from './user.js'
  // TODO
  //Ще създам константа , вкоято ще държа функцията firebase.auth(), която се използва от файърбейс за аутентикиране и записване на юзъри в базата данни.
 const userMOdel = firebase.auth();
@@ -12,8 +12,6 @@ const app = Sammy('#main', function (context) {
     //GET заявки... Използват се за визуализиране на темплейтите.
 
     //2. home... Ще използвам 'this.get()' за всеки един темплейт. 'this.get()' взима за параметри името на темплейта и функцията , която ще го визуализира.
-
-   
     this.get('#/home', function (context){
 
         const loggedUser = localStorage.getItem('isLogged');
